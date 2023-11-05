@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "description": "《小白的开发之路》",
   "author": "lidamao <lidamao@lidamao.top>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.17.1"
+  }
 }
