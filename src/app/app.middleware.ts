@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 export const requestUrl = (
   request: Request,
   response: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   console.log(request.url);
   next();
@@ -19,8 +19,12 @@ export const defaultErrorHandler = (
   error: any,
   request: Request,
   response: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
+  if (error.message) {
+    console.log('Warning: ', error.message);
+  }
+
   let statusCode: number, message: string;
 
   /**
