@@ -13,6 +13,9 @@
     "baseUrl": "./",
     "incremental": true
   },
+  "files": [
+    "types/express.d.ts"
+  ],
   "include": [
     "src/**/*"
   ],
