@@ -1,0 +1,32 @@
+{
+"Express handler / middleware": {
+    "scope": "javascript,typescript",
+    "prefix": "eh",
+    "body": [
+        "/**",
+        " * $1",
+        " */",
+        "export const ${2:NAME} = async (",
+        " req: Request,",
+        " res: Response,",
+        " next: NextFunction,",
+        ") => {",
+        "  $3",
+        "};"
+    ]
+},
+"Async function": {
+    "scope": "javascript,typescript",
+    "prefix": "asf",
+    "body": [
+        "/**",
+        " * $1",
+        " */",
+        "export const ${2:NAME} = async (",
+        " $3",
+        ") => {",
+        "  $4",
+        "};"
+    ]
+}
+}

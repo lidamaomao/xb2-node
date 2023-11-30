@@ -21,3 +21,7 @@ npm-debug.log*
 .env*
 
 config/*.key
+
+!.vscode/*.code-snippets
+
+/uploads
