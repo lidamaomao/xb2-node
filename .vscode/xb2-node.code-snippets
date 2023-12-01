@@ -7,9 +7,9 @@
         " * $1",
         " */",
         "export const ${2:NAME} = async (",
-        " req: Request,",
-        " res: Response,",
-        " next: NextFunction,",
+        "  req: Request,",
+        "  res: Response,",
+        "  next: NextFunction,",
         ") => {",
         "  $3",
         "};"
@@ -23,7 +23,7 @@
         " * $1",
         " */",
         "export const ${2:NAME} = async (",
-        " $3",
+        "  $3",
         ") => {",
         "  $4",
         "};"
