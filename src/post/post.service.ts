@@ -1,14 +1,41 @@
 import { connection } from '../app/database/mysql';
 import { PostModel } from './post.model';
+import { sqlFragment } from './post.provider';
 
 /**
  * 获取内容列表
  */
-export const getPosts = async () => {
+export interface GetPostsOptionsFilter {
+  name: string;
+  sql?: string;
+  param?: string;
+}
+
+export interface GetPostsOptions {
+  sort?: string;
+  filter?: GetPostsOptionsFilter;
+}
+
+export const getPosts = async (options: GetPostsOptions) => {
+  const { sort, filter } = options;
+  let params: Array<any> = [];
+  if (filter.param) {
+    params = [filter.param, ...params];
+  }
   const statement = `SELECT post.id, post.title, post.content,
-  JSON_OBJECT('id', user.id, 'name', user.name) as user
-  FROM post LEFT JOIN user ON user.id = post.userId`;
-  const [data] = await connection.promise().query(statement);
+  ${sqlFragment.user},
+  ${sqlFragment.totalComments},
+  ${sqlFragment.file},
+  ${sqlFragment.tags}
+  FROM post
+  ${sqlFragment.leftJoinUser}
+  ${sqlFragment.leftJoinOneFile}
+  ${sqlFragment.leftJoinTag}
+  where ${filter.sql}
+  GROUP BY post.id
+  ORDER BY ${sort}
+  `;
+  const [data] = await connection.promise().query(statement, params);
   return data;
 };
 
