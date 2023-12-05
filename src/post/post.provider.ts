@@ -5,7 +5,8 @@ export const sqlFragment = {
   user: `
       JSON_OBJECT(
         'id', user.id,
-        'name', user.name
+        'name', user.name,
+        'avatar', IF(COUNT(avatar.id), 1, null)
       ) AS user
     `,
 
@@ -47,6 +48,7 @@ export const sqlFragment = {
   `,
   leftJoinUser: `
   LEFT JOIN user ON user.id = post.userId
+  LEFT JOIN avatar ON user.id = avatar.userId
 `,
   leftJoinOneFile: `
   left join lateral (

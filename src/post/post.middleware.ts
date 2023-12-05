@@ -63,7 +63,7 @@ export const filter = async (
 };
 
 /**
- * 内容分谢
+ * 内容分页
  */
 export const paginate = async (
   req: Request,

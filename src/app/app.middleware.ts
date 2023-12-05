@@ -71,6 +71,10 @@ export const defaultErrorHandler = (
       statusCode = 400;
       message = '内容已经有这个标签栏';
       break;
+    case 'FILE_TYPE_NOT_ACCEPT':
+      statusCode = 400;
+      message = '不能上传此类型文件';
+      break;
     case 'UNABLE_TO_REPLY_THIS_COMMENT':
       statusCode = 400;
       message = '无法回复这条评论';
