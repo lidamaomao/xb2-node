@@ -46,6 +46,13 @@ export const sqlFragment = {
     ) as JSON
   ) as tags
   `,
+  totalLikes: `
+  (
+    SELECT COUNT(user_like_post.postId)
+    FROM user_like_post
+    WHERE user_like_post.postId = post.id
+  ) AS totalLikes
+  `,
   leftJoinUser: `
   LEFT JOIN user ON user.id = post.userId
   LEFT JOIN avatar ON user.id = avatar.userId
@@ -61,5 +68,8 @@ export const sqlFragment = {
   leftJoinTag: `
   left join post_tag on post_tag.postId = post.id
   left join tag on post_tag.tagId = tag.id
+  `,
+  innerJoinUserLikePost: `
+  INNER JOIN user_like_post on user_like_post.postId = post.id
   `,
 };
