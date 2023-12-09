@@ -4,6 +4,9 @@ import {
   deleteComment,
   isReplyComment,
   updateComment,
+  getComments,
+  getCommentsTotalCount,
+  GetCommentReplies,
 } from './comment.service';
 
 /**
@@ -98,6 +101,52 @@ export const destory = async (
   try {
     const data = await deleteComment(parseInt(commentId, 10));
     res.send(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 评论列表
+ */
+export const index = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const totalCount = await getCommentsTotalCount({
+      filter: req.filter,
+      pagination: req.pagination,
+    });
+
+    res.header('X-Total-Count', totalCount);
+
+    const comments = await getComments({
+      filter: req.filter,
+      pagination: req.pagination,
+    });
+    res.send(comments);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 回复列表
+ */
+export const indexReplies = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { commentId } = req.params;
+  try {
+    const replies = await GetCommentReplies({
+      commentId: parseInt(commentId, 10),
+    });
+
+    res.send(replies);
   } catch (error) {
     next(error);
   }

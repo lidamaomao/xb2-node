@@ -8,6 +8,7 @@ import {
   postHasTag,
   deletePostTag,
   getPostsTotalCount,
+  getPostById,
 } from './post.service';
 import { TagModel } from '../tag/tag.model';
 import { getTagByName, createTag } from '../tag/tag.service';
@@ -150,6 +151,20 @@ export const destroyPostTag = async (
   try {
     await deletePostTag(parseInt(postId, 10), tagId);
     res.sendStatus(201);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 单个内容
+ */
+export const show = async (req: Request, res: Response, next: NextFunction) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await getPostById(parseInt(postId, 10));
+    res.send(post);
   } catch (error) {
     next(error);
   }

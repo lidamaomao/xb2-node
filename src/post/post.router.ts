@@ -1,15 +1,26 @@
 import express, { Router } from 'express';
 import * as postController from './post.controller';
-import { requestUrl } from '../app/app.middleware';
 import { accessControl, authGuard } from '../auth/auth.middleware';
 import { sort, filter, paginate } from './post.middleware';
+import { POSTS_PER_PAGE } from '../app/app.config';
 
 const router: Router = express.Router();
 
 /**
  * 内容列表
  */
-router.get('/posts', sort, filter, paginate, postController.index);
+router.get(
+  '/posts',
+  sort,
+  filter,
+  paginate(POSTS_PER_PAGE),
+  postController.index,
+);
+
+/**
+ * 单个内容
+ */
+router.get('/posts/:postId', postController.show);
 
 /**
  * 创建内容
