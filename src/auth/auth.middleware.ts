@@ -31,23 +31,10 @@ export const validateLoginData = async (
  */
 export const authGuard = (req: Request, res: Response, next: NextFunction) => {
   console.log('验证用户身份');
-  try {
-    const authorization = req.header('Authorization');
-    if (!authorization) throw new Error();
-
-    const token = authorization.replace('Bearer ', '');
-    if (!token) throw new Error();
-
-    const decoded = jwt.verify(token, PUBLIC_KEY, {
-      algorithms: ['RS256'],
-    });
-
-    req.user = decoded as TokenPayload;
-
-    next();
-  } catch (error) {
+  if (!req.user.id) {
     next(new Error('UNAUTHORIZED'));
   }
+  next();
 };
 
 /**
@@ -78,4 +65,30 @@ export const accessControl = (options: AccessControlOptions) => {
     }
     next();
   };
+};
+
+/**
+ * 当前用户
+ */
+export const currentUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  let user: TokenPayload = {
+    id: null,
+    name: 'anonymous',
+  };
+  try {
+    const authorization = req.header('Authorization');
+    const token = authorization.replace('Bearer ', '');
+    if (token) {
+      const decoded = jwt.verify(token, PUBLIC_KEY, {
+        algorithms: ['RS256'],
+      });
+      user = decoded as TokenPayload;
+    }
+  } catch (error) {}
+  req.user = user;
+  next();
 };

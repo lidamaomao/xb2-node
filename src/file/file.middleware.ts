@@ -44,6 +44,7 @@ export const fileProcessor = async (
   res: Response,
   next: NextFunction,
 ) => {
+  console.log('文件处理');
   const { path } = req.file;
   let image: Jimp;
   try {

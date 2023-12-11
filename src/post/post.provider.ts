@@ -65,6 +65,18 @@ export const sqlFragment = {
     limit 1
   ) as file on post.id = file.postId
   `,
+  innerJoinOneFile: `
+  inner join lateral (
+    select * from file
+    where file.postId = post.id
+    order by file.id desc
+    limit 1
+  ) as file on post.id = file.postId
+  `,
+  innerJoinFile: `
+  INNER JOIN file
+  ON file.postId = post.id
+  `,
   leftJoinTag: `
   left join post_tag on post_tag.postId = post.id
   left join tag on post_tag.tagId = tag.id
